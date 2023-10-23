@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-
   <body>
     <div class="container">
       <ul id="ul" class="comments">
@@ -31,7 +30,6 @@
       </div>
     </div>
   </body>
-
   <script>
     "use strict";
     const nameElement = document.getElementById("inputName");
@@ -39,24 +37,40 @@
     const buttonElement = document.getElementById("buttonPush");
     const ulElement = document.getElementById("ul");
 
-    const commentsArray = [
-  {
-    name: 'Глеб Фокин',
-    date: '12.02.22 12:18',
-    comment: 'Это будет первый комментарий на этой странице',
-    like: 3,
-    userLike: false,
-    paint: ''
-  },
-  {
-    name: 'Варвара Н.',
-    date: '13.02.22 19:22',
-    comment: 'Мне нравится как оформлена эта страница! ❤',
-    like: 75,
-    userLike: true,
-    paint: '-active-like'
-  }
-];
+//Получаю текущую дату
+const getCurrentDate = () => {
+	let dateOne = new Date().toLocaleString().slice(0, -3).slice(0,10);
+	let dateTwo = new Date().toLocaleString().slice(11).slice(0,-3);
+	return dateOne + dateTwo;
+}
+
+//Получаю скорректированную дату
+	const getCorrectDate = (setDate) => {
+	let dateOne = new Date(setDate).toLocaleString().slice(0, -3).slice(0,10);
+	let dateTwo = new Date(setDate).toLocaleString().slice(11).slice(0,-3);
+	return dateOne + dateTwo;
+}
+
+    let commentsArray = [];
+
+		fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
+      method: "GET",
+    }).then((response) => {
+      response.json().then((responseData) => {
+        const getApiComments = responseData.comments.map((comment) => {
+          return {
+            author: comment.author.name,
+            date: getCorrectDate(comment.date),
+            likes: comment.likes,
+            isLiked: false,
+            text: comment.text,
+          };
+        });
+        commentsArray = getApiComments;
+				renderComments();
+			});
+		});
+
 
 const answerToComment = () => {
       const commentsToAnswer = document.querySelectorAll('.comment');
@@ -73,14 +87,14 @@ const likes = () => {
     likeButton.addEventListener('click', (event) => {
 			event.stopPropagation();
       const index = likeButton.dataset.index;
-      if (commentsArray[index].userLike === false ) {
+      if (commentsArray[index].isLiked === false ) {
         commentsArray[index].paint = '-active-like';
-        commentsArray[index].like += 1;
-        commentsArray[index].userLike = true;
+        commentsArray[index].likes += 1;
+        commentsArray[index].isLiked = true;
       } else {
         commentsArray[index].paint = '';
-        commentsArray[index].like -= 1;
-        commentsArray[index].userLike = false;
+        commentsArray[index].likes -= 1;
+        commentsArray[index].isLiked = false;
       }
       renderComments();
 			answerToComment();
@@ -93,17 +107,17 @@ const renderComments = () => {
     return `
     <li class="comment" data-username="${item.name}" data-text="${item.comment}">
           <div class="comment-header">
-            <div>${item.name}</div>
+            <div>${item.author}</div>
             <div>${item.date}</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
-              ${item.comment}
+              ${item.text}
             </div>
           </div>
           <div class="comment-footer">
             <div class="likes">
-              <span class="likes-counter">${item.like}</span>
+              <span class="likes-counter">${item.likes}</span>
               <button data-index='${index}' class="like-button ${item.paint}"</button>
             </div>
           </div>
@@ -142,7 +156,6 @@ textElement.addEventListener('input', () =>{
   }
 })
 
-
 buttonElement.addEventListener('click', () => {
     nameElement.classList.remove('error');
     textElement.classList.remove('error');
@@ -152,47 +165,14 @@ buttonElement.addEventListener('click', () => {
       textElement.classList.add('error');
       return;
     }
+		getCorrectDate();
 
-    let currentDate = new Date();
-      let day = currentDate.getDate();
-      let month = currentDate.getMonth() + 1;
-      let year = currentDate.getFullYear();
-      let hours = currentDate.getHours();
-      let minutes = currentDate.getMinutes();
-      
-      if (day < 10) {
-        day = "0" + day;
-      }
-      if (month < 10) {
-        month = "0" + month;
-      }
-      if (hours < 10) {
-        hours = "0" + hours;
-      }
-      if (minutes < 10) {
-        minutes = "0" + minutes;
-      }
-      let newformatDate = day + "." + month + "." + year + " " + hours + ":" + minutes;
-   
-      commentsArray.push({  
-      name: nameElement.value
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;"),
-      date: newformatDate,
-      comment: textElement.value
-			.replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;"),
-      like: 0,
-      userLike: false,
-      paint: '',
-  });
-    renderComments();
 
     nameElement.value = '';
     textElement.value = '';
     buttonElement.disabled = true;
-});
-
+	});
+})
 
   </script>
 </html>
