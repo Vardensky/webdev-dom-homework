@@ -73,10 +73,20 @@ const getCurrentDate = () => {
 		});
 
 
+const answerToComment = () => {
+      const commentsToAnswer = document.querySelectorAll('.comment');
+      for (const commentToAnswer of commentsToAnswer) {
+        commentToAnswer.addEventListener("click", () => {
+          textElement.value = `${commentToAnswer.dataset.text}\n${commentToAnswer.dataset.username},\n`
+        });
+      }
+    }
+
 const likes = () => {
   const likeButtons = document.querySelectorAll('.like-button');
   for (const likeButton of likeButtons) {
-    likeButton.addEventListener('click', () => {
+    likeButton.addEventListener('click', (event) => {
+			event.stopPropagation();
       const index = likeButton.dataset.index;
       if (commentsArray[index].isLiked === false ) {
         commentsArray[index].paint = '-active-like';
@@ -88,6 +98,7 @@ const likes = () => {
         commentsArray[index].isLiked = false;
       }
       renderComments();
+			answerToComment();
     });
   };
 };
@@ -95,7 +106,7 @@ const likes = () => {
 const renderComments = () => {
   const commentsHtml = commentsArray.map((item, index) =>{
     return `
-    <li class="comment">
+    <li class="comment" data-username="${item.name}" data-text="${item.comment}">
           <div class="comment-header">
             <div>${item.author}</div>
             <div>${item.date}</div>
@@ -115,9 +126,12 @@ const renderComments = () => {
     `})
     .join('');
     ulElement.innerHTML = commentsHtml;
+		answerToComment();
     likes();
 };
 renderComments();
+
+
 
 buttonElement.disabled = true;
 nameElement.addEventListener('input', () =>{
@@ -154,38 +168,6 @@ buttonElement.addEventListener('click', () => {
     }
 		getCorrectDate();
 
-   //Отправляю комментарий
-      fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
-				method: "POST",
-				body: JSON.stringify({
-					name: nameElement.value
-					.replaceAll("<", "&lt;")
-      		.replaceAll(">", "&gt;"),
-
-					text: textElement.value
-					.replaceAll("<", "&lt;")
-      		.replaceAll(">", "&gt;"),
-				}),
-			}).then((response) => {
-				response.json().then((responseData) => {
-					fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
-      method: "GET",
-    }).then((response) => {
-      response.json().then((responseData) => {
-        const getApiComments = responseData.comments.map((comment) => {
-          return {
-            author: comment.author.name,
-            date: getCorrectDate(comment.date),
-            likes: comment.likes,
-            isLiked: false,
-            text: comment.text,
-          };
-        });
-        commentsArray = getApiComments;
-				renderComments();
-				});
-			});
-		})
 
     nameElement.value = '';
     textElement.value = '';
