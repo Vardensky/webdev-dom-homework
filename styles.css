@@ -46,6 +46,7 @@ body {
 
   .comment {
     padding: 48px;
+		cursor: pointer;
   }
 
   .comment-header {
@@ -66,6 +67,7 @@ body {
 
   .comment-text {
     font-size: 32px;
+		white-space: pre-line;
   }
 
   .likes {
