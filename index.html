@@ -12,6 +12,7 @@
 		<ul id="ul" class="comments">
 			<!-- Список рендерится из Js -->
 		</ul>
+		<div id="pre-loader"></div>
 		<div class="add-form">
 			<input id="inputName" type="text" class="add-form-name" placeholder="Введите ваше имя" />
 			<textarea id="inputText" type="textarea" class="add-form-text" placeholder="Введите ваш коментарий"
@@ -29,6 +30,7 @@
 	const textElement = document.getElementById("inputText");
 	const buttonElement = document.getElementById("buttonPush");
 	const ulElement = document.getElementById("ul");
+	const preLoaderText = document.getElementById("pre-loader");
 
 	//Получаю текущую дату
 	const getCurrentDate = () => {
@@ -46,23 +48,55 @@
 
 	let commentsArray = [];
 
-	fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
-		method: "GET",
-	}).then((response) => {
-		response.json().then((responseData) => {
-			const getApiComments = responseData.comments.map((comment) => {
-				return {
-					author: comment.author.name,
-					date: getCorrectDate(comment.date),
-					likes: comment.likes,
-					isLiked: false,
-					text: comment.text,
-				};
+	// fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
+	// 	method: "GET",
+	// }).then((response) => {
+	// 	response.json().then((responseData) => {
+	// 		const getApiComments = responseData.comments.map((comment) => {
+	// 			return {
+	// 				author: comment.author.name,
+	// 				date: getCorrectDate(comment.date),
+	// 				likes: comment.likes,
+	// 				isLiked: false,
+	// 				text: comment.text,
+	// 			};
+	// 		});
+	// 		commentsArray = getApiComments;
+	// 		renderComments();
+	// 	});
+	// });
+
+	preLoaderText.textContent = "Загрузка комментариев ...";
+	const getFetchApi = () => {
+		return fetch(
+			"https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments",
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => {
+				return response.json();
+			})
+			.then((response) => {
+				const getApiComments = response.comments.map((comment) => {
+					return {
+						author: comment.author.name,
+						date: getCorrectDate(comment.date),
+						likes: comment.likes,
+						isLiked: false,
+						text: comment.text,
+					};
+				});
+				commentsArray = getApiComments;
+				renderComments();
+			})
+			.then((response) => {
+				preLoaderText.textContent = "";
+				preLoaderText.classList.remove("margin");
 			});
-			commentsArray = getApiComments;
-			renderComments();
-		});
-	});
+	};
+
+	getFetchApi();
 
 
 	const likes = () => {
@@ -135,6 +169,8 @@
 		}
 	})
 
+
+
 	buttonElement.addEventListener('click', () => {
 		nameElement.classList.remove('error');
 		textElement.classList.remove('error');
@@ -147,6 +183,7 @@
 		getCorrectDate();
 
 		//Отправляю комментарий
+		preLoaderText.textContent = "Ваш комментарий добавляется. Подождите ...";
 		fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
 			method: "POST",
 			body: JSON.stringify({
@@ -159,31 +196,14 @@
 					.replaceAll(">", "&gt;"),
 			}),
 		}).then((response) => {
-			response.json().then((responseData) => {
-				fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
-					method: "GET",
-				}).then((response) => {
-					response.json().then((responseData) => {
-						const getApiComments = responseData.comments.map((comment) => {
-							return {
-								author: comment.author.name,
-								date: getCorrectDate(comment.date),
-								likes: comment.likes,
-								isLiked: false,
-								text: comment.text,
-							};
-						});
-						commentsArray = getApiComments;
-						renderComments();
-					});
-				});
-			})
-
-			nameElement.value = '';
-			textElement.value = '';
-			buttonElement.disabled = true;
+			return getFetchApi();
 		});
-	})
+
+		nameElement.value = '';
+		textElement.value = '';
+		buttonElement.disabled = true;
+	});
+
 
 </script>
 
