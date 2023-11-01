@@ -182,6 +182,7 @@
 
 		//Отправляю комментарий
 		preLoaderText.textContent = "Ваш комментарий добавляется. Подождите ...";
+		buttonElement.disabled = true;
 		fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
 			method: "POST",
 			body: JSON.stringify({
@@ -205,7 +206,6 @@
 				} else {
 					nameElement.value = '';
 					textElement.value = '';
-					buttonElement.disabled = true;
 					return getFetchApi();
 				}
 			})
@@ -214,9 +214,11 @@
 					preLoaderText.textContent = "";
 					alert("Кажется, у вас сломался интернет, попробуйте позже");
 				} else {
-					buttonElement.disabled = false;
 					console.warn(error);
 				}
+			})
+			.finally(() => {
+				buttonElement.disabled = false;
 			})
 	});
 
