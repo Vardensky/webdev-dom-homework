@@ -224,7 +224,7 @@
 				}
 			})
 			.catch((error) => {
-				if (error == "TypeError: Failed to fetch") {
+				if (error === "Failed to fetch") {
 					preLoaderText.textContent = "";
 					alert("Кажется, у вас сломался интернет, попробуйте позже");
 				} else {
