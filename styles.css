@@ -146,3 +146,22 @@ body {
 	.disabled-hover {
 		pointer-events: none;
 	}
+
+	@keyframes rotating {
+		from {
+			transform: rotate(0deg);
+		}
+		25% {
+			transform: rotate(30deg);
+		}
+		75% {
+			transform: rotate(-30deg);
+		}
+		to {
+			transform: rotate(0deg);
+		}
+	}
+
+	.loadingLike {
+		animation: rotating 2s linear infinite;
+	}
