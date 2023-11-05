@@ -1,6 +1,30 @@
+export const renderData = (ulElement, commentsArray) => {
+	const renderComments = () => {
+		return (ulElement.innerHTML = commentsArray
+			.map((item, index) => {
+				return ` <li class="comment">
+          <div class="comment-header">
+            <div>${item.author}</div>
+            <div>${item.date}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              ${item.text}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">${item.likes}</span>
+              <button data-index='${index}' class="like-button ${item.paint}"</button>
+            </div>
+          </div>
+        </li>
+    `})
+			.join(''));
+	};
 
 	//реализую анимацию лайка
-	export const delay = (interval = 300) => {
+	const delay = (interval = 300) => {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				resolve();
@@ -8,7 +32,7 @@
 		})
 	}
 
-	export const likes = () => {
+	const likes = () => {
 		const likeButtons = document.querySelectorAll('.like-button');
 		for (const likeButton of likeButtons) {
 			likeButton.addEventListener('click', (event) => {
@@ -28,33 +52,11 @@
 							commentsArray[index].isLiked = false;
 						}
 						renderComments();
+						likes();
 					})
 			});
 		};
-	};
-
-	export const renderComments = () => {
-		const commentsHtml = commentsArray.map((item, index) => {
-			return `
-    <li class="comment">
-          <div class="comment-header">
-            <div>${item.author}</div>
-            <div>${item.date}</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              ${item.text}
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">${item.likes}</span>
-              <button data-index='${index}' class="like-button ${item.paint}"</button>
-            </div>
-          </div>
-        </li>
-    `})
-			.join('');
-		ulElement.innerHTML = commentsHtml;
+		renderComments();
 		likes();
 	};
+}
