@@ -1,19 +1,23 @@
 import { getApi } from "./modules/apiData.js";
 import { postApi } from "./modules/apiData.js";
-import { getCorrectDate} from "./modules/dateFunctions.js";
-import { renderData} from "./modules/renderData.js";
+import { getCorrectDate } from "./modules/dateFunctions.js";
+import { renderData } from "./modules/renderData.js";
+import { checkForms } from "./modules/checkForms.js";
+import {
+	nameElement,
+	textElement,
+	buttonElement,
+	ulElement,
+	preLoaderText
+} from "./modules/varibales.js";
+import { sentComment } from "./modules/sentComment.js";
 
-const nameElement = document.getElementById("inputName");
-const textElement = document.getElementById("inputText");
-const buttonElement = document.getElementById("buttonPush");
-const ulElement = document.getElementById("ul");
-const preLoaderText = document.getElementById("pre-loader");
 
 let commentsArray = [];
 
 preLoaderText.textContent = "Загрузка комментариев ...";
 const getFetchApi = () => {
-		getApi()
+	getApi()
 		.then((response) => {
 			const getApiComments = response.comments.map((comment) => {
 				return {
@@ -25,7 +29,7 @@ const getFetchApi = () => {
 				};
 			});
 			commentsArray = getApiComments;
-			renderData(ulElement, commentsArray);
+			renderData(ulElement, commentsArray)
 		})
 		.then((response) => {
 			preLoaderText.textContent = "";
@@ -35,48 +39,12 @@ const getFetchApi = () => {
 
 getFetchApi();
 
-// pltcm ,skj
-//renderData(ulElement, commentsArray);
-
-buttonElement.disabled = true;
-nameElement.addEventListener('input', () => {
-	if ((nameElement.value === '') || (textElement.value === '')) {
-		buttonElement.disabled = true;
-		return;
-	}
-	else {
-		buttonElement.disabled = false;
-		return;
-	}
-});
-
-textElement.addEventListener('input', () => {
-	if ((textElement.value === '') || (nameElement.value === '')) {
-		buttonElement.disabled = true;
-		return;
-	}
-	else {
-		buttonElement.disabled = false;
-		return;
-	}
-})
-
+checkForms(buttonElement, textElement, nameElement);
 
 buttonElement.addEventListener('click', () => {
-	nameElement.classList.remove('error');
-	textElement.classList.remove('error');
-
-	if ((nameElement.value || textElement.value) === '') {
-		nameElement.classList.add('error');
-		textElement.classList.add('error');
-		return;
-	}
-	getCorrectDate();
-
 	//Отправляю комментарий
-	preLoaderText.textContent = "Ваш комментарий добавляется. Подождите ...";
-	buttonElement.disabled = true;
-		postApi(nameElement, textElement)
+	sentComment(buttonElement, preLoaderText);
+	postApi(nameElement, textElement)
 		.then((response) => {
 			if (response.status === 400) {
 				preLoaderText.textContent = "";

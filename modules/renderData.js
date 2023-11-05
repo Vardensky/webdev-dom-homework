@@ -56,7 +56,7 @@ export const renderData = (ulElement, commentsArray) => {
 					})
 			});
 		};
-		renderComments();
-		likes();
 	};
+	renderComments();
+	likes();
 }
