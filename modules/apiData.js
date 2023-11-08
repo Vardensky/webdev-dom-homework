@@ -1,3 +1,5 @@
+import { loginElement } from "./varibales";
+
 export const getApi = () => {
 	return fetch(
 		"https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments",
@@ -24,3 +26,18 @@ export const postApi = (nameElement, textElement) => {
 		}),
 	});
 };
+
+//функция атворизации
+const hostApiAuth = 'https://wedev-api.sky.pro/api/user/login';
+const renderlogin = () => {
+	return fetch(hostApiAuth, {
+		method: "POST",
+		headers: {
+			Authorization: "123456"
+		}
+	}).then((response) => {
+		return response.json();
+	}).then((responseData) => {
+		console.log(responseData);
+	})
+}

@@ -8,7 +8,7 @@ import {
 	textElement,
 	buttonElement,
 	ulElement,
-	preLoaderText
+	preLoaderText,
 } from "./modules/varibales.js";
 import { sentComment } from "./modules/sentComment.js";
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Проект "Комменты"</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+	<div class="container">
+		<div class="add-form-login">
+			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" />
+			<input id="password" type="password" class="add-form-name-login" placeholder="Введите пароль" />
+			<div class="add-form-row">
+				<button id="buttonLogin" class="add-form-button-login">Написать</button>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+
+	const hostApiAuth = 'https://wedev-api.sky.pro/api/user/login';
+	const renderlogin = () => {
+		return fetch(hostApiAuth, {
+			method: "POST",
+			body: JSON.stringify({
+				login: "admin",
+				password: "admin",
+			})
+		}).then((response) => {
+			return response.json();
+		}).then((responseData) => {
+			console.log(responseData);
+		})
+	}
+
+	renderlogin();
+	
+
+
+
+</script>
+
+</html>
