@@ -10,8 +10,8 @@
 <body>
 	<div class="container">
 		<div class="add-form-login">
-			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" />
-			<input id="password" type="password" class="add-form-name-login" placeholder="Введите пароль" />
+			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" value="admin"/>
+			<input id="password" type="password" class="add-form-name-login" placeholder="Введите пароль" value="admin"/>
 			<div class="add-form-row">
 				<button id="buttonLogin" class="add-form-button-login">Написать</button>
 			</div>
@@ -21,22 +21,39 @@
 <script>
 
 	const hostApiAuth = 'https://wedev-api.sky.pro/api/user/login';
-	const renderlogin = () => {
+	const loginInputElement = document.getElementById("login");
+	const passwordInputElement = document.getElementById("password");
+	const buttonElementlogin = document.getElementById("buttonLogin");
+
+	//Функция переопределения токена после импорта из модуля -- начало
+	let token;
+	const setToken = (newToken) => {
+		token = newToken;
+	}
+	//Функция переопределения токена после импорта из модуля -- конец
+
+	//функция атворизации юзера --начало
+	const loginUser = () => {
 		return fetch(hostApiAuth, {
 			method: "POST",
 			body: JSON.stringify({
-				login: "admin",
-				password: "admin",
+				login: loginInputElement.value,
+				password: passwordInputElement.value,
 			})
 		}).then((response) => {
 			return response.json();
-		}).then((responseData) => {
-			console.log(responseData);
 		})
 	}
+	//функция атворизации юзера --конец
 
-	renderlogin();
-	
+	buttonElementlogin.addEventListener("click", () => {
+		loginUser().then((responseData) => {
+			setToken(responseData.user.token)
+			console.log(token);
+		})
+	})
+
+
 
 
 

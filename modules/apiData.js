@@ -1,10 +1,13 @@
-import { loginElement } from "./varibales";
+import { loginElement } from "./varibales.js";
 
 export const getApi = () => {
 	return fetch(
-		"https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments",
+		"https://wedev-api.sky.pro/api/v2/dmitriev-denis/comments",
 		{
 			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
 		}
 	)
 		.then((response) => {
@@ -13,7 +16,7 @@ export const getApi = () => {
 };
 
 export const postApi = (nameElement, textElement) => {
-	return fetch("https://wedev-api.sky.pro/api/v1/dmitriev-denis/comments", {
+	return fetch("https://wedev-api.sky.pro/api/v2/dmitriev-denis/comments", {
 		method: "POST",
 		body: JSON.stringify({
 			forceError: true,
@@ -24,20 +27,9 @@ export const postApi = (nameElement, textElement) => {
 				.replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;"),
 		}),
+		headers: {
+			Authorization: `Bearer ${token}`
+		}
 	});
 };
 
-//функция атворизации
-const hostApiAuth = 'https://wedev-api.sky.pro/api/user/login';
-const renderlogin = () => {
-	return fetch(hostApiAuth, {
-		method: "POST",
-		headers: {
-			Authorization: "123456"
-		}
-	}).then((response) => {
-		return response.json();
-	}).then((responseData) => {
-		console.log(responseData);
-	})
-}
