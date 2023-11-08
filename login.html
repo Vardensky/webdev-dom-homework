@@ -8,17 +8,34 @@
 </head>
 
 <body>
-	<div class="container">
+
+	<div id="app"></div>
+</body>
+<script>
+// рендер списка комментов -- начало
+
+
+
+
+	// рендер страницы авторизации -- начало
+	const renderHtml = () => {
+		const appElement = document.getElementById('app');
+		const loginHtml = `
+		<div class="container">
 		<div class="add-form-login">
-			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" value="admin"/>
-			<input id="password" type="password" class="add-form-name-login" placeholder="Введите пароль" value="admin"/>
+			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" value="admin" />
+			<input id="password" type="password" class="add-form-name-login" placeholder="Введите пароль" value="admin" />
 			<div class="add-form-row">
 				<button id="buttonLogin" class="add-form-button-login">Написать</button>
 			</div>
 		</div>
 	</div>
-</body>
-<script>
+		`;
+		appElement.innerHTML = loginHtml;
+	}
+
+	renderHtml();
+	// рендер страницы авторизации -- конец
 
 	const hostApiAuth = 'https://wedev-api.sky.pro/api/user/login';
 	const loginInputElement = document.getElementById("login");
@@ -46,13 +63,15 @@
 	}
 	//функция атворизации юзера --конец
 
+
+	//функция атворизации юзера и сохранение токена по нажатию кнопки --начало
 	buttonElementlogin.addEventListener("click", () => {
 		loginUser().then((responseData) => {
 			setToken(responseData.user.token)
 			console.log(token);
 		})
 	})
-
+	//функция атворизации юзера и сохранение токена по нажатию кнопки --конец
 
 
 
