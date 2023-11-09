@@ -61,10 +61,10 @@ export const renderData = (ulElement, commentsArray) => {
 	likes();
 }
 
-	// рендер страницы авторизации -- начало
-	export const renderHtmlAuth = () => {
-		const appElement = document.getElementById('app');
-		const loginHtml = `
+// рендер страницы авторизации -- начало
+export const renderHtmlAuth = () => {
+	const appElement = document.getElementById('app');
+	const loginHtml = `
 		<div class="container">
 		<div class="add-form-login">
 			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" value="admin" />
@@ -75,15 +75,16 @@ export const renderData = (ulElement, commentsArray) => {
 		</div>
 	</div>
 		`;
-		appElement.innerHTML = loginHtml;
-	}
-	// рендер страницы авторизации -- конец
+	appElement.innerHTML = loginHtml;
+}
+// рендер страницы авторизации -- конец
 
-	export const renderHtmlFormComments = () => {
-		const formElement = document.getElementById('form-comments');
-		const formHtml = `
+export const renderHtmlFormComments = () => {
+	const formElement = document.getElementById('form-comments');
+	const formHtml = `
+
 		<div class="add-form">
-		<input id="inputName" type="text" class="add-form-name" placeholder="Введите ваше имя" />
+		<input id="inputName" type="text" class="add-form-name" placeholder="${nameUser}" readonly/>
 		<textarea id="inputText" type="textarea" class="add-form-text" placeholder="Введите ваш коментарий"
 			rows="4"></textarea>
 		<div class="add-form-row">
@@ -91,13 +92,19 @@ export const renderData = (ulElement, commentsArray) => {
 		</div>
 	</div>
 		`
-		formElement.innerHTML = formHtml;
-	}
+	formElement.innerHTML = formHtml;
+}
 
-		//Функция переопределения токена после импорта из модуля -- начало
-		export let token;
-		export const setToken = (newToken) => {
-			token = newToken;
-		}
-	
-		//Функция переопределения токена после импорта из модуля -- конец
+//Функция переопределения токена после импорта из модуля -- начало
+export let token;
+export const setToken = (newToken) => {
+	token = newToken;
+}
+//Функция переопределения токена после импорта из модуля -- конец
+
+//Функция переопределения токена после импорта из модуля -- начало
+export let nameUser;
+export const setNameUser = (newUser) => {
+	nameUser = newUser;
+}
+			//Функция переопределения токена после импорта из модуля -- конец
