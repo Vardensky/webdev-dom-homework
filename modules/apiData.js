@@ -1,4 +1,9 @@
-import { loginElement } from "./varibales.js";
+import { 
+	hostApiAuth,
+ } from "./varibales.js";
+import { token,} from "./renderData.js";
+
+
 
 export const getApi = () => {
 	return fetch(
@@ -33,5 +38,16 @@ export const postApi = (nameElement, textElement) => {
 	});
 };
 
-
-
+//функция атворизации юзера --начало
+export const loginUser = ({loginInputElement, passwordInputElement}) => {
+	return fetch(hostApiAuth, {
+		method: "POST",
+		body: JSON.stringify({
+			login: loginInputElement.value,
+			password: passwordInputElement.value,
+		})
+	}).then((response) => {
+		return response.json();
+	})
+}
+//функция атворизации юзера --конец

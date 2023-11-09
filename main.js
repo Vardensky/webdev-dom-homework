@@ -1,7 +1,7 @@
 import { getApi } from "./modules/apiData.js";
-import { postApi } from "./modules/apiData.js";
+import { postApi, loginUser } from "./modules/apiData.js";
 import { getCorrectDate } from "./modules/dateFunctions.js";
-import { renderData } from "./modules/renderData.js";
+import { renderData, renderHtmlAuth, token, setToken} from "./modules/renderData.js";
 import { checkForms } from "./modules/checkForms.js";
 import {
 	nameElement,
@@ -70,3 +70,20 @@ buttonElement.addEventListener('click', () => {
 			buttonElement.disabled = false;
 		})
 });
+
+
+renderHtmlAuth();
+const loginInputElement = document.getElementById("login");
+const passwordInputElement = document.getElementById("password");
+const buttonElementlogin = document.getElementById("buttonLogin");
+
+	//функция атворизации юзера и сохранение токена по нажатию кнопки --начало
+	buttonElementlogin.addEventListener("click", () => {
+		renderHtmlAuth();
+		loginUser({loginInputElement, passwordInputElement}).then((responseData) => {
+			setToken(responseData.user.token)
+			console.log(token);
+		})
+	})
+	//функция атворизации юзера и сохранение токена по нажатию кнопки --конец
+

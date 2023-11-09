@@ -17,37 +17,14 @@
 
 
 
-	// рендер страницы авторизации -- начало
-	const renderHtml = () => {
-		const appElement = document.getElementById('app');
-		const loginHtml = `
-		<div class="container">
-		<div class="add-form-login">
-			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" value="admin" />
-			<input id="password" type="password" class="add-form-name-login" placeholder="Введите пароль" value="admin" />
-			<div class="add-form-row">
-				<button id="buttonLogin" class="add-form-button-login">Написать</button>
-			</div>
-		</div>
-	</div>
-		`;
-		appElement.innerHTML = loginHtml;
-	}
 
-	renderHtml();
-	// рендер страницы авторизации -- конец
 
 	const hostApiAuth = 'https://wedev-api.sky.pro/api/user/login';
 	const loginInputElement = document.getElementById("login");
 	const passwordInputElement = document.getElementById("password");
 	const buttonElementlogin = document.getElementById("buttonLogin");
 
-	//Функция переопределения токена после импорта из модуля -- начало
-	let token;
-	const setToken = (newToken) => {
-		token = newToken;
-	}
-	//Функция переопределения токена после импорта из модуля -- конец
+
 
 	//функция атворизации юзера --начало
 	const loginUser = () => {
