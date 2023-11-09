@@ -79,6 +79,21 @@ export const renderData = (ulElement, commentsArray) => {
 	}
 	// рендер страницы авторизации -- конец
 
+	export const renderHtmlFormComments = () => {
+		const formElement = document.getElementById('form-comments');
+		const formHtml = `
+		<div class="add-form">
+		<input id="inputName" type="text" class="add-form-name" placeholder="Введите ваше имя" />
+		<textarea id="inputText" type="textarea" class="add-form-text" placeholder="Введите ваш коментарий"
+			rows="4"></textarea>
+		<div class="add-form-row">
+			<button id="buttonPush" class="add-form-button">Написать</button>
+		</div>
+	</div>
+		`
+		formElement.innerHTML = formHtml;
+	}
+
 		//Функция переопределения токена после импорта из модуля -- начало
 		export let token;
 		export const setToken = (newToken) => {

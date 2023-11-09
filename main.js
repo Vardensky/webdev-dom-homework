@@ -1,12 +1,9 @@
 import { getApi } from "./modules/apiData.js";
 import { postApi, loginUser } from "./modules/apiData.js";
 import { getCorrectDate } from "./modules/dateFunctions.js";
-import { renderData, renderHtmlAuth, token, setToken} from "./modules/renderData.js";
+import { renderData, renderHtmlAuth, token, setToken, renderHtmlFormComments} from "./modules/renderData.js";
 import { checkForms } from "./modules/checkForms.js";
 import {
-	nameElement,
-	textElement,
-	buttonElement,
 	ulElement,
 	preLoaderText,
 } from "./modules/varibales.js";
@@ -39,11 +36,17 @@ const getFetchApi = () => {
 
 getFetchApi();
 
-checkForms(buttonElement, textElement, nameElement);
+
+renderHtmlFormComments();
+const nameElement = document.getElementById("inputName");
+const textElement = document.getElementById("inputText");
+const buttonElement = document.getElementById("buttonPush");
 
 buttonElement.addEventListener('click', () => {
 	//Отправляю комментарий
 	sentComment(buttonElement, preLoaderText);
+	renderHtmlFormComments();
+	checkForms(buttonElement, textElement, nameElement);
 	postApi(nameElement, textElement)
 		.then((response) => {
 			if (response.status === 400) {
@@ -77,9 +80,9 @@ const loginInputElement = document.getElementById("login");
 const passwordInputElement = document.getElementById("password");
 const buttonElementlogin = document.getElementById("buttonLogin");
 
+
 	//функция атворизации юзера и сохранение токена по нажатию кнопки --начало
 	buttonElementlogin.addEventListener("click", () => {
-		renderHtmlAuth();
 		loginUser({loginInputElement, passwordInputElement}).then((responseData) => {
 			setToken(responseData.user.token)
 			console.log(token);
