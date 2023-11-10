@@ -1,7 +1,7 @@
-import { 
+import {
 	hostApiAuth,
- } from "./varibales.js";
-import { token,} from "./renderData.js";
+} from "./varibales.js";
+import { token, } from "./renderData.js";
 
 
 
@@ -39,15 +39,20 @@ export const postApi = (nameElement, textElement) => {
 };
 
 //функция атворизации юзера --начало
-export const loginUser = ({loginInputElement, passwordInputElement}) => {
+export const loginUser = ({ loginInputElement, passwordInputElement }) => {
 	return fetch(hostApiAuth, {
 		method: "POST",
 		body: JSON.stringify({
 			login: loginInputElement.value,
 			password: passwordInputElement.value,
 		})
-	}).then((response) => {
-		return response.json();
+	}).then((response, event) => {
+		if (response.status === 400) {
+			alert("передан неправильный логин или пароль");
+			event.stopPropagation();
+		} else {
+			return response.json();
+		}
 	})
 }
 //функция атворизации юзера --конец

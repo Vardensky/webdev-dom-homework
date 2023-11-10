@@ -92,6 +92,7 @@ export const renderHtmlFormComments = () => {
 		</div>
 		`
 	formElement.innerHTML = formHtml;
+	document.createElement("ul");
 }
 
 //Функция переопределения токена после импорта из модуля -- начало

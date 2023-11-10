@@ -87,10 +87,12 @@ const sendFormAuth = () => {
 	//функция атворизации юзера и сохранение токена по нажатию кнопки --начало
 	buttonElementlogin.addEventListener("click", () => {
 		loginUser({ loginInputElement, passwordInputElement }).then((responseData) => {
+			alert('Авторизация прошла успешно');
 			setToken(responseData.user.token);
-			setNameUser(responseData.user.login);
+			setNameUser(responseData.user.name);
 			console.log(token);
 		}).then(() => {
+			ulElement.style.display = "flex";
 			document.getElementById("app").remove();
 			sendFormComments()
 			getFetchApi();
@@ -102,7 +104,7 @@ const sendFormAuth = () => {
 const loginLink = document.getElementById("authorization");
 loginLink.addEventListener("click", () => {
 	sendFormAuth();
-	document.getElementById("ul").remove();
+	ulElement.style.display = "none";
 	document.getElementById("authorization").remove();
 })
 
