@@ -76,13 +76,13 @@ export const renderHtmlAuth = () => {
 	</div>
 		`;
 	appElement.innerHTML = loginHtml;
+
 }
 // рендер страницы авторизации -- конец
 
 export const renderHtmlFormComments = () => {
 	const formElement = document.getElementById('form-comments');
 	const formHtml = `
-
 		<div class="add-form">
 		<input id="inputName" type="text" class="add-form-name" placeholder="${nameUser}" readonly/>
 		<textarea id="inputText" type="textarea" class="add-form-text" placeholder="Введите ваш коментарий"
@@ -90,7 +90,6 @@ export const renderHtmlFormComments = () => {
 		<div class="add-form-row">
 			<button id="buttonPush" class="add-form-button">Написать</button>
 		</div>
-	</div>
 		`
 	formElement.innerHTML = formHtml;
 }

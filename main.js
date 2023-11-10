@@ -92,8 +92,8 @@ const sendFormAuth = () => {
 			console.log(token);
 		}).then(() => {
 			document.getElementById("app").remove();
+			sendFormComments()
 			getFetchApi();
-			sendFormComments();
 		});
 	});
 	//функция атворизации юзера и сохранение токена по нажатию кнопки --конец
