@@ -60,3 +60,51 @@ export const renderData = (ulElement, commentsArray) => {
 	renderComments();
 	likes();
 }
+
+// рендер страницы авторизации -- начало
+export const renderHtmlAuth = () => {
+	const appElement = document.getElementById('app');
+	const loginHtml = `
+		<div class="container">
+		<div class="add-form-login">
+			<input id="login" type="text" class="add-form-name-login" placeholder="Введите логин" value="admin" />
+			<input id="password" type="password" class="add-form-name-login" placeholder="Введите пароль" value="admin" />
+			<div class="add-form-row">
+				<button id="buttonLogin" class="add-form-button-login">Написать</button>
+			</div>
+		</div>
+	</div>
+		`;
+	appElement.innerHTML = loginHtml;
+
+}
+// рендер страницы авторизации -- конец
+
+export const renderHtmlFormComments = () => {
+	const formElement = document.getElementById('form-comments');
+	const formHtml = `
+		<div class="add-form">
+		<input id="inputName" type="text" class="add-form-name" placeholder="${nameUser}" readonly/>
+		<textarea id="inputText" type="textarea" class="add-form-text" placeholder="Введите ваш коментарий"
+			rows="4"></textarea>
+		<div class="add-form-row">
+			<button id="buttonPush" class="add-form-button">Написать</button>
+		</div>
+		`
+	formElement.innerHTML = formHtml;
+	document.createElement("ul");
+}
+
+//Функция переопределения токена после импорта из модуля -- начало
+export let token;
+export const setToken = (newToken) => {
+	token = newToken;
+}
+//Функция переопределения токена после импорта из модуля -- конец
+
+//Функция переопределения токена после импорта из модуля -- начало
+export let nameUser;
+export const setNameUser = (newUser) => {
+	nameUser = newUser;
+}
+			//Функция переопределения токена после импорта из модуля -- конец
