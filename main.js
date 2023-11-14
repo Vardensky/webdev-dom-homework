@@ -8,6 +8,7 @@ import {
 	preLoaderText,
 } from "./modules/varibales.js";
 import { sentComment } from "./modules/sentComment.js";
+import { format } from 'date-fns'
 
 
 let commentsArray = [];
@@ -20,7 +21,7 @@ const getFetchApi = () => {
 			const getApiComments = response.comments.map((comment) => {
 				return {
 					author: comment.author.name,
-					date: getCorrectDate(comment.date),
+					date: format(new Date(comment.date), "yyyy-MM-dd hh.mm.ss"),
 					likes: comment.likes,
 					isLiked: false,
 					text: comment.text,
